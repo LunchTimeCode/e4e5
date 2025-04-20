@@ -42,13 +42,16 @@ board.addEventListener('drop', (e) => {
     to: target,
     promotion: 'q' // NOTE: always promote to a queen for example simplicity
   });
+  
+  
 
   // illegal move
   if (move === null) {
-    console.log("piece:", piece)
     setAction('snapback');
     return;
   }
+  
+  sendMoveToServer(move)
 
   // make random legal move for black
   window.setTimeout(makeRandomMove, 250);
@@ -59,3 +62,17 @@ board.addEventListener('drop', (e) => {
 board.addEventListener('snap-end', (e) => {
   board.setPosition(game.fen());
 });
+
+
+function sendMoveToServer(move) {
+  fetch(
+    "/api/chess/move",
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(move)
+    }
+  )
+}

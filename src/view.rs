@@ -3,14 +3,13 @@ use rocket::{Route, response::content};
 
 use crate::chess_view;
 
-
 pub fn page(markup: Markup) -> Markup {
     html! {
        html  data-theme="dim" {
             head {
                 meta charset="utf-8";
                 meta name="viewport" content="width=device-width, initial-scale=1.0";
-                meta name="description" content="Jobs";
+                meta name="description" content="e4e5";
                 ({frontend::resources()})
                 ({title("e4e5")})
             }
@@ -32,6 +31,7 @@ pub mod frontend {
     use maud::{Markup, PreEscaped, html};
 
     const DAISY: &str = r#"<link  href="/_assets/daisy.css" rel="stylesheet" type="text/css">"#;
+    const FAVICON: &str = r#"<link rel="icon" type="image/x-icon" href="/_assets/favicon.ico">"#;
     const TAIL: &str = r#"<script src="/_assets/tail.js"></script>"#;
     const CHESS: &str = r#"<script type="module" src="/_assets/chess.js"></script>"#;
     const CHESS_LOG: &str = r#"<script type="module" src="/_assets/chess_log.js"></script>"#;
@@ -47,6 +47,7 @@ pub mod frontend {
         (PreEscaped(CHESS_FUN))
         (PreEscaped(DAISY))
         (PreEscaped(DAISY_THEMES))
+        (PreEscaped(FAVICON))
         }
     }
 }
@@ -68,11 +69,11 @@ fn body_m() -> Markup {
     header {
         (navbar)
     }
-    
-    div .box .w-96 .h-96 {
+
+    div .box .w-96 .h-96 .mx-auto {
             (chess_view::chess_board())
     }
-    
+
 
 
         }

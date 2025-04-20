@@ -1,8 +1,8 @@
 use core::fmt;
 
-use maud::{html, Markup};
+use maud::{Markup, html};
 
-
+#[allow(unused)]
 enum Position {
     Start,
     None,
@@ -21,22 +21,19 @@ impl Position {
     fn new() -> Self {
         Position::Start
     }
-
 }
-
-
 
 pub fn chess_board() -> Markup {
     let pos = Position::new().to_string();
-    
+
     html! {
         chess-board showNotation="true" position=(pos) draggable-pieces {
-            
+
         }
-        
-        
-        
-        
-       
+
+
+
+
+
     }
 }

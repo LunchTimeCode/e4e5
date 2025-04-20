@@ -5,7 +5,7 @@ pub fn assets(asset: &str) -> (ContentType, Vec<u8>) {
     let file = fighting_daisy::assets::read_any_file(asset);
     let here = read_any_file(asset);
     let any_file = file.unwrap_or(&here);
-    
+
     let bytes = any_file.contents();
 
     let file_type = asset.split('.').last().unwrap();
