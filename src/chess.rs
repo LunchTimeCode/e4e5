@@ -1,11 +1,13 @@
 use std::str::FromStr;
 
+use rocket::response::content::RawHtml;
 use rocket::Route;
 
 use serde_derive::Deserialize;
 use serde_derive::Serialize;
 
 use crate::_State;
+use crate::chess_view;
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -35,14 +37,15 @@ pub async fn chess_move(
 }
 
 #[get("/<id>/status")]
-pub async fn chess_status(state: &_State, id: String) -> Option<String> {
+pub async fn chess_status(state: &_State, id: String) -> Option<rocket::response::content::RawHtml<String>> {
     let mut state = state.get().await;
     let id = uuid::Uuid::from_str(&id).ok()?;
-    state.get_game_or_create(id).moves();
+   let game = state.get_game_or_create(id);
+   let m = chess_view::game_history::game_history(game);
 
-    Some("Ok".to_string())
+   Some(RawHtml(m.into_string()))
 }
 
 pub fn api() -> (&'static str, Vec<Route>) {
-    ("/api/chess", routes![chess_move])
+    ("/api/chess", routes![chess_move, chess_status])
 }

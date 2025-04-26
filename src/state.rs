@@ -1,30 +1,12 @@
 use std::collections::HashMap;
 
-use crate::chess::ChessMove;
+use crate::game;
 
-#[derive(Debug)]
-pub struct ChessGame {
-    moves: Vec<ChessMove>,
-}
 
-// todo move to game mod
-impl ChessGame {
-    pub fn new() -> Self {
-        Self { moves: vec![] }
-    }
-
-    pub fn push_move(&mut self, mv: ChessMove) {
-        self.moves.push(mv);
-    }
-
-    pub fn moves(&self) -> Vec<ChessMove> {
-        self.moves.clone()
-    }
-}
 
 #[derive(Debug)]
 pub struct GameState {
-    chess_games: HashMap<uuid::Uuid, ChessGame>,
+    chess_games: HashMap<uuid::Uuid, game::ChessGame>,
 }
 
 impl GameState {
@@ -34,16 +16,16 @@ impl GameState {
         }
     }
 
-    pub fn push_game(&mut self, id: uuid::Uuid, game: ChessGame) {
+    pub fn push_game(&mut self, id: uuid::Uuid, game:  game::ChessGame) {
         self.chess_games.insert(id, game);
     }
 
-    pub fn game(&self, id: &uuid::Uuid) -> Option<&ChessGame> {
+    pub fn game(&self, id: &uuid::Uuid) -> Option<&game::ChessGame> {
         self.chess_games.get(id)
     }
 
-    pub fn get_game_or_create(&mut self, id: uuid::Uuid) -> &mut ChessGame {
-        self.chess_games.entry(id).or_insert_with(ChessGame::new)
+    pub fn get_game_or_create(&mut self, id: uuid::Uuid) -> &mut  game::ChessGame {
+        self.chess_games.entry(id).or_insert_with( game::ChessGame::new)
     }
 }
 
